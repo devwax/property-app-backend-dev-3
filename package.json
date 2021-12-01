@@ -1,10 +1,10 @@
 {
-  "name": "keystone-6-heroku-example",
+  "name": "property-app-backend-dev-3",
   "version": "1.0.0",
   "description": "A simple example project showing how you might deploy Keystone 6 to Heroku",
   "main": "keystone.ts",
-  "repository": "git@github.com:keystonejs/keystone-6-heroku-example.git",
-  "author": "John Molomby <john@thinkmill.com.au>",
+  "repository": "git@github.com:keystonejs/property-app-backend-dev-3.git",
+  "author": "Steve Monsen <smonsen@devwax.com>",
   "license": "MIT",
   "private": true,
   "engines": {
