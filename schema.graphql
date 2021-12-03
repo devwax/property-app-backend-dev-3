@@ -245,6 +245,153 @@ input TaskRelateToManyForCreateInput {
   connect: [TaskWhereUniqueInput!]
 }
 
+type Listing {
+  id: ID!
+  title: String
+  email: String
+  status: String
+  address: String
+  lng: String
+  lat: String
+  agent: Agent
+}
+
+input ListingWhereUniqueInput {
+  id: ID
+  email: String
+}
+
+input ListingWhereInput {
+  AND: [ListingWhereInput!]
+  OR: [ListingWhereInput!]
+  NOT: [ListingWhereInput!]
+  id: IDFilter
+  title: StringFilter
+  email: StringFilter
+  status: StringNullableFilter
+  address: StringFilter
+  lng: StringFilter
+  lat: StringFilter
+  agent: AgentWhereInput
+}
+
+input ListingOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+  email: OrderDirection
+  status: OrderDirection
+  address: OrderDirection
+  lng: OrderDirection
+  lat: OrderDirection
+}
+
+input ListingUpdateInput {
+  title: String
+  email: String
+  status: String
+  address: String
+  lng: String
+  lat: String
+  agent: AgentRelateToOneForUpdateInput
+}
+
+input AgentRelateToOneForUpdateInput {
+  create: AgentCreateInput
+  connect: AgentWhereUniqueInput
+  disconnect: Boolean
+}
+
+input ListingUpdateArgs {
+  where: ListingWhereUniqueInput!
+  data: ListingUpdateInput!
+}
+
+input ListingCreateInput {
+  title: String
+  email: String
+  status: String
+  address: String
+  lng: String
+  lat: String
+  agent: AgentRelateToOneForCreateInput
+}
+
+input AgentRelateToOneForCreateInput {
+  create: AgentCreateInput
+  connect: AgentWhereUniqueInput
+}
+
+type Agent {
+  id: ID!
+  title: String
+  email: String
+  address: String
+  lng: String
+  lat: String
+  listings: Listing
+}
+
+input AgentWhereUniqueInput {
+  id: ID
+  email: String
+}
+
+input AgentWhereInput {
+  AND: [AgentWhereInput!]
+  OR: [AgentWhereInput!]
+  NOT: [AgentWhereInput!]
+  id: IDFilter
+  title: StringFilter
+  email: StringFilter
+  address: StringFilter
+  lng: StringFilter
+  lat: StringFilter
+  listings: ListingWhereInput
+}
+
+input AgentOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+  email: OrderDirection
+  address: OrderDirection
+  lng: OrderDirection
+  lat: OrderDirection
+}
+
+input AgentUpdateInput {
+  title: String
+  email: String
+  address: String
+  lng: String
+  lat: String
+  listings: ListingRelateToOneForUpdateInput
+}
+
+input ListingRelateToOneForUpdateInput {
+  create: ListingCreateInput
+  connect: ListingWhereUniqueInput
+  disconnect: Boolean
+}
+
+input AgentUpdateArgs {
+  where: AgentWhereUniqueInput!
+  data: AgentUpdateInput!
+}
+
+input AgentCreateInput {
+  title: String
+  email: String
+  address: String
+  lng: String
+  lat: String
+  listings: ListingRelateToOneForCreateInput
+}
+
+input ListingRelateToOneForCreateInput {
+  create: ListingCreateInput
+  connect: ListingWhereUniqueInput
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -266,6 +413,21 @@ type Mutation {
   updatePeople(data: [PersonUpdateArgs!]!): [Person]
   deletePerson(where: PersonWhereUniqueInput!): Person
   deletePeople(where: [PersonWhereUniqueInput!]!): [Person]
+  createListing(data: ListingCreateInput!): Listing
+  createListings(data: [ListingCreateInput!]!): [Listing]
+  updateListing(
+    where: ListingWhereUniqueInput!
+    data: ListingUpdateInput!
+  ): Listing
+  updateListings(data: [ListingUpdateArgs!]!): [Listing]
+  deleteListing(where: ListingWhereUniqueInput!): Listing
+  deleteListings(where: [ListingWhereUniqueInput!]!): [Listing]
+  createAgent(data: AgentCreateInput!): Agent
+  createAgents(data: [AgentCreateInput!]!): [Agent]
+  updateAgent(where: AgentWhereUniqueInput!, data: AgentUpdateInput!): Agent
+  updateAgents(data: [AgentUpdateArgs!]!): [Agent]
+  deleteAgent(where: AgentWhereUniqueInput!): Agent
+  deleteAgents(where: [AgentWhereUniqueInput!]!): [Agent]
   endSession: Boolean!
   authenticatePersonWithPassword(
     email: String!
@@ -312,6 +474,22 @@ type Query {
   ): [Person!]
   person(where: PersonWhereUniqueInput!): Person
   peopleCount(where: PersonWhereInput! = {}): Int
+  listings(
+    where: ListingWhereInput! = {}
+    orderBy: [ListingOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Listing!]
+  listing(where: ListingWhereUniqueInput!): Listing
+  listingsCount(where: ListingWhereInput! = {}): Int
+  agents(
+    where: AgentWhereInput! = {}
+    orderBy: [AgentOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Agent!]
+  agent(where: AgentWhereUniqueInput!): Agent
+  agentsCount(where: AgentWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
 }

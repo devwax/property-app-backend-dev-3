@@ -31,3 +31,25 @@ model Person {
   password String?
   tasks    Task[]  @relation("Task_assignedTo")
 }
+
+model Listing {
+  id      String  @id @default(cuid())
+  title   String  @default("")
+  email   String  @unique @default("")
+  status  String?
+  address String  @default("")
+  lng     String  @default("")
+  lat     String  @default("")
+  agent   Agent?  @relation("Agent_listings")
+}
+
+model Agent {
+  id         String   @id @default(cuid())
+  title      String   @default("")
+  email      String   @unique @default("")
+  address    String   @default("")
+  lng        String   @default("")
+  lat        String   @default("")
+  listings   Listing? @relation("Agent_listings", fields: [listingsId], references: [id])
+  listingsId String?  @unique @map("listings")
+}

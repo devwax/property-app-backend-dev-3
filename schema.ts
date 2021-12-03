@@ -28,6 +28,7 @@ export const lists = {
       finishBy: timestamp(),
     },
   }),
+
   Person: list({
     fields: {
       name: text({ isRequired: true }),
@@ -40,6 +41,37 @@ export const lists = {
       // the isRequired flag.
       password: password({ isRequired: true }),
       tasks: relationship({ ref: 'Task.assignedTo', many: true }),
+    },
+  }),
+
+  Listing: list({
+    fields: {
+      title: text({ isRequired: true }),
+      email: text({ isRequired: true, isUnique: true, isIndexed: 'unique' }),
+      status: select({
+        dataType: 'enum',
+        options: [
+          { label: 'Active', value: 'active' },
+          { label: 'Pending', value: 'pending' },
+          { label: 'Closed', value: 'closed' },
+        ],
+      }),
+      address: text({}),
+      lng: text({}),
+      lat: text({}),
+      // agent: text({}),
+      agent: relationship({ ref: 'Agent.listings', many: false }),
+    },
+  }),
+
+  Agent: list({
+    fields: {
+      title: text({ isRequired: true }),
+      email: text({ isRequired: true, isUnique: true, isIndexed: 'unique' }),
+      address: text({}),
+      lng: text({}),
+      lat: text({}),
+      listings: relationship({ ref: 'Listing.agent', many: false }),
     },
   }),
 };
